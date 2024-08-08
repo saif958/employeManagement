@@ -5,16 +5,18 @@ def create_profile():
     while True:
         print(f"Profile no: {len(employee_data) + 1}")
         print(f"emp id: {emp_id}")
-        name = input("Enter employee name: ")
-        location = input("Enter employee location: ")
-        salary = input("Enter employee salary: ")
-        age = int(input("Enter employee age: "))
+        name = input("Enter employee name :")
+        location = input("Enter employee location :")
+        address = input("Enter emplooyee home address :")
+        salary = input("Enter employee salary :")
+        age = int(input("Enter employee age :"))
 
         employee_dict = {
             "emp_id": emp_id,
             "name": name,
             "age": age,
             "location": location,
+            "address" : address,
             "salary": salary
         }
         employee_data[emp_id] = employee_dict
@@ -52,11 +54,13 @@ def update_profile():
         print("enter details to update:")
         name = input("Enter employee name: ")
         location = input("Enter employee location: ")
+        address = input("Enter the employee adrress:")
         salary = input("Enter employee salary: ")
         age = int(input("Enter employee age: "))
         employee_data [emp_id]= {
             "name" : name,
             "location" : location,
+            "address" : address,
             "salary" : salary,
             "age" : age
         }
@@ -89,7 +93,7 @@ def adrress_locate():
     emp_id = int(input("Enter the employee ID to check the location: "))
     if emp_id in employee_data:
         name = employee_data[emp_id].get('name')
-        location = employee_data[emp_id].get('location')
+        location = employee_data[emp_id].get('location') #getting specicfic item from list through dict
         if location == 'islamabad':
             print(f"{name}:employee is belong :{location}")
         elif location == 'lahore':
@@ -130,12 +134,21 @@ def name():
         print(f"the length of the characters in name:{length}")
     else:
         print("print not existed :")
+
+def age():
+    ages = [item['age'] for item in employee_data.values()] # imp line accessing age from all list item 
+    print(f"all employee ages:{ages}")
+    print(f"maximum age employe :{max(ages)}")
+    print(f"minimum age employe :{min(ages)}")
+
 create_profile()
 read()
 update_profile()
+delete_profile()
+read()
 age_identifier()
 adrress_locate()
-name()
 salary()
-delete_profile()
-exit()
+name()
+age()
+exit_menu()
