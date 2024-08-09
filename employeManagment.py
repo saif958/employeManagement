@@ -3,20 +3,16 @@ emp_id = 1
 def create_profile():
     global employee_data, emp_id
     while True:
-        print(f"Profile no: {len(employee_data) + 1}")
-        print(f"emp id: {emp_id}")
+        print(f"{len(employee_data) + 1}")
         name = input("Enter employee name :")
         location = input(str("Enter employee location :"))
-        address = input(str("Enter emplooyee area and home address :" ))
-        salary = input("Enter employee salary :")
+        salary = input("Enter employee salary :")  
         age = int(input("Enter employee age :"))
 
         employee_dict = {
-            "emp_id": emp_id,
             "name": name,
             "age": age,
             "location": location,
-            "address" : address,
             "salary": salary
         }
         employee_data[emp_id] = employee_dict
@@ -50,24 +46,31 @@ def exit_menu():
 def update_profile():
     emp_id = int(input("Enter the employee ID to update: "))
     if emp_id in employee_data:
+        prev = employee_data[emp_id]
         print(f"Employee ID: {emp_id}, Data: {employee_data[emp_id]}")
-        print("enter details to update:")
+        print("Enter details to update :")
         name = input("Enter employee name: ")
-        location = input(str("Enter employee location: "))
-        address = input(str("Enter the employee adrress:"))
+        if name == "":
+            name = prev.get('name')
+        location = input("Enter employee location: ")
+        if location == "":
+            location = prev.get('location')
         salary = input("Enter employee salary: ")
-        age = int(input(int("Enter employee age: ")))
-        employee_data [emp_id]= {
-            "name" : name,
-            "location" : location,
-            "address" : address,
-            "salary" : salary,
-            "age" : age
+        if salary == "":
+            salary = prev.get('salary')
+        age = input("Enter employee age: ")
+        if age == "":
+            age = prev.get('age')
+        employee_data[emp_id] = {
+            "name": name,
+            "location": location,
+            "salary": salary,
+            "age": age
         }
         print(f"Employee ID: {emp_id}, Data: {employee_data[emp_id]}")
-        print("update profile successfully")
+        print("Profile updated successfully.")
     else:
-        print("profile is not existed:")
+        print("Profile does not exist.")
 
 def delete_profile():
     emp_id = int(input("Enter the employee ID to delete: "))
@@ -81,61 +84,53 @@ def delete_profile():
 def age_identifier():
     print("age identifier")
     emp_id = int(input("Enter the employee ID to age identify: "))
+    name = employee_data[emp_id].get('name')
     age = employee_data [emp_id].get('age')
     if age >= 25 :
-        name = employee_data[emp_id].get('name')
-        print(f"{name}:employe is not young:")
+        print(f"{name}:employe is not young and age:{age}")
     elif age <= 25 :
-        name = employee_data[emp_id].get('name')
-        print(f"{name}:employee is young")
+        print(f"{name}:employee is young and age:{age}")
 
 def adrress_locate():
-    emp_id = int(input("Enter the employee ID to check the location: "))
-    if emp_id in employee_data:
-        name = employee_data[emp_id].get('name')
-        location = employee_data[emp_id].get('location')
-        address = employee_data[emp_id].get('adrress') #getting specicfic item from list through dict
+    op = input("press 1 for location wise address and 2 for indivual adrress:")
+    if op == '1':
+        location = input("Enter location: ")
+        for emp_id, data in employee_data.items():
+            if location in data.get('location'):
+                print(f"Employee ID: {emp_id}, Data: {data}")
+    
+    elif op == '2':
+        emp_id = int(input("Enter the employee ID to check the address: "))
+        if emp_id in employee_data:
+          name = employee_data[emp_id].get('name')
+          location = employee_data[emp_id].get('location') #getting specicfic item from list through dict
 
         if location == 'islamabad':
             print(f"{name}:employee is belong :{location}")
-            print(f"{name}:employee address is :{employee_data[emp_id].get('address')}")
                     
         elif location == 'lahore':
             print(f"{name}:employee is belong :{location}")
-            print(f"{name}:employee address is :{employee_data[emp_id].get('address')}")
            
         elif location == 'karachi':
             print(f"{name}:employee is belong :{location}")
-            print(f"{name}:employee address is :{employee_data[emp_id].get('address')}")
-            
         else :
             print(f"{name}:employee is belong to unkown area:")
-            print(f"{name}:local address is :{employee_data[emp_id].get('address')}")
-           
     else:
-        print("id not existed :")
-
-switch_dict = {
-    1: create_profile,
-    2: read,
-    3: update_profile,
-    4: delete_profile,
-    5: exit, 
-}
+             print("id not existed :")
 
 def salary():
 
-    increment = 50000
     emp_id = int(input("Enter the employee ID to check salary: "))
     if emp_id in employee_data:
         salary = employee_data[emp_id].get('salary')
         name = employee_data[emp_id].get('name') 
-
         print (f"{name}: current salary: {salary}")
+
     else:
         print("Employee not found.")
 
 def name():
+     
     emp_id = int(input("Enter the employee ID to check the name characters : "))
     if emp_id in employee_data:
         name = employee_data[emp_id].get('name') # accessing dictionary
@@ -146,9 +141,9 @@ def name():
         print("print not existed :")
 
 def age():
+
     print("age checker youngest and oldest employee:")
     ages = [item['age'] for item in employee_data.values()] # imp line accessing age from all list item 
     print(f"all employee ages:{ages}")
     print(f"maximum age employe :{max(ages)}")
     print(f"minimum age employe :{min(ages)}")
-
